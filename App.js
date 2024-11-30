@@ -9,6 +9,7 @@ import { HistoricoScreen } from './screens/HistoricoScreen';
 import Icon from 'react-native-vector-icons/Feather';
 
 import { resetDatabase, startDatabase } from './data/sqlite/SQLiteDb';
+import { seedDatabase } from './data/sqlite/seedData';
 
 const Tab = createBottomTabNavigator();
 
@@ -17,7 +18,8 @@ export default function App() {
   useEffect(() => {
     const init = async () => {
       await startDatabase()
-      // await resetDatabase()
+      await resetDatabase()
+      // await seedDatabase()
     }
 
     init()
@@ -45,12 +47,12 @@ export default function App() {
           options={{tabBarIcon: ({focused}) => (
             <Icon name='database' size={20} color={focused ? '#fff' : '#333'} />
           )}} />
-        {/* <Tab.Screen 
+        <Tab.Screen 
           name="Controle" 
           component={ControleScreen}
           options={{tabBarIcon: ({focused}) => (
             <Icon name='dollar-sign' size={20} color={focused ? '#fff' : '#333'} />
-          )}} /> */}
+          )}} />
       </Tab.Navigator>
     </NavigationContainer>
   );

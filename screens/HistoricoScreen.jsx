@@ -79,6 +79,7 @@ export const HistoricoScreen = () => {
                   <Text>R${item[1].total.toString()}</Text>
                 </Text>
               </View>
+              
               {Array.from(item[1].purchases.entries()).map(([purchaseId, details]) => (
                 <View key={purchaseId} style={styles.placeGroup}>
 
@@ -119,6 +120,7 @@ const styles = StyleSheet.create({
   },
   resultTitle: {
     fontSize: 26,
+    fontWeight: 700,
     color: '#333',
     textAlign: 'center',
     marginBottom: 50

@@ -1,6 +1,6 @@
 import * as SQLite from 'expo-sqlite';
 
-const getConnection = async () => 
+export const getConnection = async () => 
   await SQLite.openDatabaseAsync('nfce-recon', {
     useNewConnection: true
   })
@@ -104,10 +104,11 @@ export const getPurchases = async () => {
       SELECT * FROM purchase 
         JOIN items ON items.purchase_id = purchase.id
     `)
-
+    
     return result.map(linha => ({
       ...linha
     }))
+
   }
   catch(ex) {
     console.log(ex)
@@ -129,6 +130,94 @@ export const resetDatabase = async () => {
     await command.executeAsync()
   }
   catch(ex) {
+    console.log(ex.message)
+  }
+  finally {
+    await db.closeAsync()
+  }
+}
+
+export const getMonthlyAverageSpending = async () => {
+  const db = await getConnection()
+
+  try {
+    const result = await db.getAllAsync(`
+      SELECT 
+        strftime('%Y-%m', date) AS month,
+        SUM(items.val * items.qtd) AS total 
+      FROM purchase 
+        JOIN items ON items.purchase_id = purchase.id 
+      GROUP BY month
+    `)
+
+    const monthlyResult = result.map(linha => ({
+      ...linha
+    }))
+
+    return monthlyResult
+  } 
+  catch (ex) {
+    console.log(ex.message)
+  }
+  finally {
+    await db.closeAsync()
+  }
+}
+
+export const getTopItemsPurchased = async (limit) => {
+  const db = await getConnection()
+
+  try {
+    const query = await db.getAllAsync(`
+      SELECT 
+        items.desc, 
+        purchase.place, 
+        COUNT(items.desc) AS frequency 
+      FROM items 
+        JOIN purchase ON items.purchase_id = purchase.id 
+      GROUP BY items.desc, purchase.place 
+      ORDER BY frequency DESC 
+      LIMIT ?
+    `, [limit])
+
+    // const result = await query.executeAsync({$limit: limit})
+
+    const topItemsPurchased = query.map(linha => ({
+      ...linha
+    }))
+
+    return topItemsPurchased
+  } 
+  catch (ex) {
+    console.log(ex.message)
+  }
+  finally {
+    await db.closeAsync()
+  }
+}
+
+export const getPurchaseFrequency = async () => {
+  const db = await getConnection()
+
+  try {
+    const result = await db.getAllAsync(`
+        SELECT 
+          items.desc, 
+          COUNT(items.desc) AS frequency, 
+          MIN(purchase.date) AS first_purchase, 
+          MAX(purchase.date) AS last_purchase 
+        FROM items 
+          JOIN purchase ON items.purchase_id = purchase.id 
+        GROUP BY items.desc
+    `)
+
+    const purchaseFrequencies = result.map(linha => ({
+      ...linha
+    }))
+
+    return purchaseFrequencies
+  } 
+  catch (ex) {
     console.log(ex.message)
   }
   finally {
