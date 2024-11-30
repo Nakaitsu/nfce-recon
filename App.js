@@ -18,7 +18,7 @@ export default function App() {
   useEffect(() => {
     const init = async () => {
       await startDatabase()
-      await resetDatabase()
+      // await resetDatabase()
       // await seedDatabase()
     }
 
