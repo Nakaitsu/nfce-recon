@@ -33,11 +33,10 @@ export const HistoricoScreen = () => {
   
       const placeGroup = purchaseDateGroup.purchases.get(purchaseId)
   
-      placeGroup.items.push({ ...purchase })
+      placeGroup.items.push({ ...purchase }) 
       const itemTotal = purchase.unType === 'UN' ? purchase.val * purchase.qtd : purchase.val
       placeGroup.total += itemTotal
       purchaseDateGroup.total += itemTotal
-  
     })
   
     const orderedHistoryIntervals = Array.from(historyIntervals.entries())
@@ -73,8 +72,13 @@ export const HistoricoScreen = () => {
           data={purchaseHistory}
           renderItem={({item}) => (
             <View style={styles.group}>
-              <Text style={styles.dateTitle}>{formatDate(item[0])}</Text>
-              {/* <Text>{item[1].total.toString()}</Text> */}
+              <View style={styles.dateHeader}>
+                <Text style={styles.dateTitle}>{formatDate(item[0])}</Text>
+                <Text style={{fontSize: 14}}>
+                  <Text style={{fontWeight: 700}}>Total: </Text>
+                  <Text>R${item[1].total.toString()}</Text>
+                </Text>
+              </View>
               {Array.from(item[1].purchases.entries()).map(([purchaseId, details]) => (
                 <View key={purchaseId} style={styles.placeGroup}>
 
@@ -127,8 +131,16 @@ const styles = StyleSheet.create({
     fontWeight: 700,
     marginBottom: 10
   },
-  dateTitle: {
+  dateHeader: {
+    width: '100%',
     marginBottom: 30,
+    display: 'flex',
+    flexDirection: 'row',
+    columnGap: 20,
+    alignItems: 'center'
+    // justifyContent: 'space-between'
+  },
+  dateTitle: {
     fontSize: 18,
     fontWeight: 700
   },

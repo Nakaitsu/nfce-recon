@@ -1,5 +1,6 @@
 import React from 'react'
-import { StyleSheet, View, Text } from 'react-native'
+import { View, Text } from 'react-native'
+import styles from './styles'
 
 export const ProductCard = ({ item }) => {
   return (
@@ -16,33 +17,3 @@ export const ProductCard = ({ item }) => {
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  productCard: {
-    padding: 10,
-    backgroundColor: '#E8E8E8',
-    marginBottom: 10,
-    borderRadius: 7
-  },
-  itemDescription: {
-    width: '100%',
-    fontWeight: 700,
-    marginBottom: 10
-  },
-  itemDetails: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%'
-  },
-  itemValue: {
-    flex:1
-  },
-  itemAmount: {
-    flex:1,
-    color: '#333'
-  },
-  itemTotal: {
-    flex:1
-  }
-})
