@@ -76,10 +76,10 @@ export const HistoricoScreen = () => {
                 <Text style={styles.dateTitle}>{formatDate(item[0])}</Text>
                 <Text style={{fontSize: 14}}>
                   <Text style={{fontWeight: 700}}>Total: </Text>
-                  <Text>R${item[1].total.toString()}</Text>
+                  <Text>R${item[1].total.toFixed(2).toString()}</Text>
                 </Text>
               </View>
-              
+
               {Array.from(item[1].purchases.entries()).map(([purchaseId, details]) => (
                 <View key={purchaseId} style={styles.placeGroup}>
 
