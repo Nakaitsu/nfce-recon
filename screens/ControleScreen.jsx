@@ -67,8 +67,6 @@ export const ControleScreen = () => {
     const diffMonths = Math.ceil(diffDays / 30) 
     let displayDateText
 
-    console.log(targetDate)
-    
     if (diffDays >= 1 && diffDays <= 6) { 
       displayDateText = `${diffDays} dia(s)`
     } 
